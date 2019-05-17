@@ -23,12 +23,12 @@ namespace HW190512.Controllers
         // GET: 客戶聯絡人
         public ActionResult Index(string sortOrder,string searchString)
         {
-            ViewBag.職稱 = String.IsNullOrEmpty(sortOrder) ? "職稱" : "";
-            ViewBag.姓名 = String.IsNullOrEmpty(sortOrder) ? "姓名" : "";
-            ViewBag.Email = String.IsNullOrEmpty(sortOrder) ? "Email " : "";
-            ViewBag.手機 = String.IsNullOrEmpty(sortOrder) ? "手機" : "";
-            ViewBag.電話 = String.IsNullOrEmpty(sortOrder) ? "電話" : "";
-            ViewBag.客戶名稱 = String.IsNullOrEmpty(sortOrder) ? "客戶名稱" : "";
+            ViewBag.職稱 = sortOrder=="職稱_DESC" ? "職稱" : "";
+            ViewBag.姓名 = sortOrder == "姓名_DESC" ? "姓名" : "";
+            ViewBag.Email = sortOrder == "Email_DESC" ? "Email " : "";
+            ViewBag.手機 = sortOrder == "手機_DESC" ? "手機" : "";
+            ViewBag.電話 = sortOrder == "電話_DESC" ? "電話" : "";
+            ViewBag.客戶名稱 = sortOrder == "客戶名稱_DESC" ? "客戶名稱" : "";
 
             var 客戶聯絡人 = repoContact.All();
             if (!String.IsNullOrEmpty(searchString))
@@ -38,21 +38,39 @@ namespace HW190512.Controllers
             switch (sortOrder)
             {
                 case "職稱":
-                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.職稱);
+                    客戶聯絡人 = 客戶聯絡人.OrderBy(s => s.職稱);
                     break;
                 case "姓名":
                     客戶聯絡人 = 客戶聯絡人.OrderBy(s => s.姓名);
                     break;
                 case "Email":
-                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.Email);
+                    客戶聯絡人 = 客戶聯絡人.OrderBy(s => s.Email);
                     break;
                 case "手機":
-                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.手機);
+                    客戶聯絡人 = 客戶聯絡人.OrderBy(s => s.手機);
                     break;
                 case "電話":
                     客戶聯絡人 = 客戶聯絡人.OrderBy(s => s.電話);
                     break;
                 case "客戶名稱":
+                    客戶聯絡人 = 客戶聯絡人.OrderBy(s => s.客戶資料.客戶名稱);
+                    break;
+                case "職稱_DESC":
+                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.職稱);
+                    break;
+                case "姓名_DESC":
+                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.姓名);
+                    break;
+                case "Email_DESC":
+                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.Email);
+                    break;
+                case "手機_DESC":
+                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.手機);
+                    break;
+                case "電話_DESC":
+                    客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.電話);
+                    break;
+                case "客戶名稱_DESC":
                     客戶聯絡人 = 客戶聯絡人.OrderByDescending(s => s.客戶資料.客戶名稱);
                     break;
                 default:

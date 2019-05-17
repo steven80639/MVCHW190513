@@ -26,11 +26,11 @@ namespace HW190512.Controllers
         public ActionResult Index(string sortOrder,string searchString)
         {
             ViewBag.客戶名稱 = String.IsNullOrEmpty(sortOrder) ? "客戶名稱" : "";
-            ViewBag.統一編號 = String.IsNullOrEmpty(sortOrder) ? "統一編號" : "";
-            ViewBag.電話 = String.IsNullOrEmpty(sortOrder) ? "電話" : "";
-            ViewBag.傳真 = String.IsNullOrEmpty(sortOrder) ? "傳真" : "";
-            ViewBag.地址 = String.IsNullOrEmpty(sortOrder) ? "地址" : "";
-            ViewBag.Email = String.IsNullOrEmpty(sortOrder) ? "Email" : "";
+            ViewBag.統一編號 = sortOrder== "統一編號_DESC" ? "統一編號" : "";
+            ViewBag.電話 = sortOrder == "電話_DESC" ? "電話" : "";
+            ViewBag.傳真 = sortOrder == "傳真_DESC" ? "傳真" : "";
+            ViewBag.地址 = sortOrder == "地址_DESC" ? "地址" : "";
+            ViewBag.Email = sortOrder == "Email_DESC" ? "Email" : "";
 
             var 客戶資料 = repoCustomer.All();
             if (!String.IsNullOrEmpty(searchString))
@@ -40,25 +40,42 @@ namespace HW190512.Controllers
             switch (sortOrder)
             {
                 case "客戶名稱":
-                    客戶資料 = 客戶資料.OrderByDescending(s => s.客戶名稱);
+                    客戶資料 = 客戶資料.OrderBy(s => s.客戶名稱);
                     break;
                 case "統一編號":
                     客戶資料 = 客戶資料.OrderBy(s => s.統一編號);
                     break;
                 case "電話":
-                    客戶資料 = 客戶資料.OrderByDescending(s => s.電話);
+                    客戶資料 = 客戶資料.OrderBy(s => s.電話);
                     break;
                 case "傳真":
-                    客戶資料 = 客戶資料.OrderByDescending(s => s.傳真);
+                    客戶資料 = 客戶資料.OrderBy(s => s.傳真);
                     break;
                 case "地址":
                     客戶資料 = 客戶資料.OrderBy(s => s.地址);
                     break;
                 case "Email":
+                    客戶資料 = 客戶資料.OrderBy(s => s.Email);
+                    break;
+                case "客戶名稱_DESC":
+                    客戶資料 = 客戶資料.OrderByDescending(s => s.客戶名稱);
+                    break;
+                case "統一編號_DESC":
+                    客戶資料 = 客戶資料.OrderByDescending(s => s.統一編號);
+                    break;
+                case "電話_DESC":
+                    客戶資料 = 客戶資料.OrderByDescending(s => s.電話);
+                    break;
+                case "傳真_DESC":
+                    客戶資料 = 客戶資料.OrderByDescending(s => s.傳真);
+                    break;
+                case "地址_DESC":
+                    客戶資料 = 客戶資料.OrderByDescending(s => s.地址);
+                    break;
+                case "Email_DESC":
                     客戶資料 = 客戶資料.OrderByDescending(s => s.Email);
                     break;
-                default:
-                    客戶資料 = 客戶資料.OrderBy(s => s.客戶名稱);
+                default:                   
                     break;
             }
             return View(客戶資料.ToList());
