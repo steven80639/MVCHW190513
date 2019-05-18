@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HW190512.Models;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace HW190512.Controllers
 {
@@ -79,6 +81,33 @@ namespace HW190512.Controllers
                     break;
             }
             return View(客戶資料.ToList());
+        }
+
+        [HttpPost]
+        public FileResult ExportExcel()
+        {
+            var data = repoCustomer.All();
+            DataTable dt = new DataTable("客戶資料");
+            dt.Columns.AddRange(new DataColumn[4] {
+                new DataColumn("客戶名稱"),
+                new DataColumn("統一編號"),
+                new DataColumn("電話"),
+                new DataColumn("地址") });
+
+            foreach (var customer in data)
+            {
+                dt.Rows.Add(customer.客戶名稱, customer.統一編號, customer.電話, customer.地址);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.ms-excel", "客戶資料.xlsx");
+                }
+            }
         }
 
         // GET: 客戶資料/Details/5

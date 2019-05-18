@@ -16,6 +16,12 @@
         <input type="submit" value="Search" />
     </p>
 }
+@using (Html.BeginForm("ExportExcel", "客戶資料", FormMethod.Post))
+{
+    <div class="form-row">
+        <button class="btn btn-success" id="ExportExcel" name="ExportExcel">匯出資料</button>
+    </div>
+}
 <table class="table">
     <tr>
         <th>
@@ -28,7 +34,7 @@
             @Html.ActionLink("電話", "Index", new { sortOrder = ViewBag.電話 })
         </th>
         <th>
-            @Html.ActionLink("傳真", "Index", new { sortOrder = ViewBag.傳真})
+            @Html.ActionLink("傳真", "Index", new { sortOrder = ViewBag.傳真 })
         </th>
         <th>
             @Html.ActionLink("地址", "Index", new { sortOrder = ViewBag.地址 })
